@@ -2,6 +2,13 @@ import React, { Component } from 'react';
 import './style.css';
 
 class OrderItem extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            editing:true,
+            stars:0
+        }
+    }
     render() {
         const { shop,product,price,picture,ifCommented } = this.props.data;
         return (
@@ -29,9 +36,38 @@ class OrderItem extends Component {
                         </div>
                     </div>
                 </div>
+                {this.state.editing ? this.renderEditArea():null}
             </div>
         );
     }
+
+    renderEditArea() {
+        return(
+            <div className='orderItem_commentContainer'>
+                <textarea className='orderItem_comment'/>
+                {this.renderStars()}
+                <button className='orderItem_btn orderItem_btn--red'>提交</button>
+                <button className='orderItem_btn orderItem_btn--grey'>取消</button>
+            </div>
+        )
+    }
+
+    renderStars(){
+        const { stars} =this.state;
+        return(
+            <div>
+                {
+                    [1,2,3,4,5].map((item,index)=> {
+                        const light = stars > item ? "orderItem_star--lignt":"";
+                        return(
+                            <span key={index}>★</span>
+                        )
+                    })
+                }
+            </div>
+        )
+    }
+
 }
 
 export default OrderItem;
